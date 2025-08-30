@@ -1,0 +1,181 @@
+<!--<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Tasks</title>
+</head>
+<body>
+    <h1>Your Tasks</h1>
+
+	<div th:if="${msg}">
+				<span style="color:green;"th:text="${msg}"></span>
+			</div>
+
+    <div th:each="task : ${tasks}">
+        <p><b>Title:</b> <span th:text="${task.title}"></span></p>
+        <p><b>Description:</b> <span th:text="${task.description}"></span></p>
+        <p><b>Due Date:</b> <span th:text="${task.dueDate}"></span></p>
+        <p><b>Status:</b> 
+            <span th:if="${task.status}">Completed</span>
+            <span th:if="${!task.status}">Pending</span>
+        </p>
+		<a th:href="@{/utask/{id}(id=${task.id})}">Update</a>  |
+		<a th:href="@{/dtask/{id}(id=${task.id})}">Delete</a>
+        <hr>
+    </div>
+
+    <a th:href="ctask">➕ Create New Task</a>
+	<a th:href="signout">Sign Out</a>
+</body>
+</html>
+-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Tasks</title>
+
+  <style>
+    :root {
+      --primary: #ff9f43;   /* orange */
+      --dark: #000000;      /* black */
+      --dark2: #1a1a1a;     /* deep gray-black */
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--dark);
+      color: var(--primary);
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: var(--dark2);
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: var(--primary);
+      text-decoration: none;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+
+    .navbar a:hover {
+      color: #ffb866;
+    }
+
+    /* Table container */
+    .table-container {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: var(--dark2);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(255, 159, 67, 0.3);
+    }
+
+    .table-container h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 25px;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: var(--dark2);
+      color: var(--primary);
+    }
+
+    thead {
+      background-color: var(--primary);
+      color: var(--dark);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border: 1px solid var(--primary);
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #111;
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: var(--dark2);
+    }
+
+    tbody tr:hover {
+      background-color: #222;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 6px 12px;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      background-color: var(--primary);
+      color: var(--dark);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <div class="brand"><a href="/home">TODO App</a></div>
+    <div class="nav-links">
+      <a href="/home">Home</a>
+      <a href="/signin">Login</a>
+      <a href="/register">Register</a>
+      <a href="/ctask">Create Task</a>
+	  <a href="/signout">Sign out</a>
+
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <h2>Your Tasks</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Due Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="task : ${tasks}">
+          <td th:text="${task.title}"></td>
+          <td th:text="${task.description}"></td>
+          <td th:text="${#dates.format(task.dueDate, 'dd-MM-yyyy')}"></td>
+          <td th:text="${task.status ? 'Completed' : 'Pending'}"></td>
+          <td>
+            <a th:href="@{/utask/{id}(id=${task.id})}" class="btn">Edit</a>
+            <a th:href="@{/dtask/{id}(id=${task.id})}" class="btn">Delete</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>
